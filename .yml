@@ -3,15 +3,14 @@ name: Cypress Tests
 on:
   push:
     branches:
-      - main  # ajuste conforme o nome da sua branch principal
+      - main
   pull_request:
     branches:
-      - main  # ajuste conforme o nome da sua branch principal
+      - main
 
 jobs:
-  test:
+  cypress-tests:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -19,5 +18,14 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Install Cypress
+        run: npm install cypress
+
       - name: Run Cypress tests
-        run: npm run cypress:run mantis # ajuste para o script npm usado para rodar seus testes Cypress
+        run: npx cypress run
+
+      - name: Upload Cypress results
+        uses: actions/upload-artifact@v2
+        with:
+          name: cypress-results
+          path: cypress/results
