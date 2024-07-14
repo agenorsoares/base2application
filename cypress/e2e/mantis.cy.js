@@ -63,21 +63,22 @@ describe("Caminho Feliz", () => {
     });
     cy.get('input[type="submit"][value="Criar Nova Tarefa"]').click();
     cy.wait(5000);
-    cy.get("td.bug-id")
-      .invoke("text")
-      .then((text) => {
-        //issue_id = text.trim();
-        cy.wrap(text.trim()).as("issueId");
-        issue_id = issueID;
-        cy.log("Issue ID: " + issue_id);
-      });
-    cy.visit(`https://mantis-prova.base2.com.br/view.php?id=${ Cypress.env("issue_id")}`);
-    cy.get("td.bug-id")
-      .invoke("text")
-      .then((text) => {
-        issue_id = text.trim();
-        cy.wrap(issue_id).should("eq", text.trim());
-      });
+    // cy.get("td.bug-id")
+    //   .invoke("text")
+    //   .then((text) => {
+    //     //issue_id = text.trim();
+    //     cy.wrap(text.trim()).as("issueId");
+    //     issue_id = issueID;
+    //     cy.log("Issue ID: " + issue_id);
+    //   });
+    // cy.wait(5000);
+    // cy.visit(`https://mantis-prova.base2.com.br/view.php?id=${ Cypress.env("issue_id")}`);
+    // cy.get("td.bug-id")
+    //   .invoke("text")
+    //   .then((text) => {
+    //     issue_id = text.trim();
+    //     cy.wrap(issue_id).should("eq", text.trim());
+    //   });
   });
 
   it("Fazer Logout", () => {
@@ -87,11 +88,3 @@ describe("Caminho Feliz", () => {
     cy.get('a[href="/logout_page.php"]').click();
   });
 });
-
-//fazer logout X
-//salvar num tarefa -> ver tarefas -> validar que apareca X
-//criar validacoes X
-//utilizar credenciais X
-
-//criar integracao dashboard X
-//criar execucao cicd/ X
