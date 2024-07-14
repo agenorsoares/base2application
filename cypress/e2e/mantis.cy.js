@@ -1,14 +1,19 @@
 describe('Caminho Feliz', () => {
+
+let issue_id = '';
+
   before(() => {
+    cy.fixture('credential').then((credentials) => {
     cy.session('login', () => {
       cy.visit('https://mantis-prova.base2.com.br/login_page.php');
-      cy.get('#username').type('Agenor_Neto');
+      cy.get('#username').type(credentials.user);
       cy.get('input[type="submit"].btn-success').click();
-      cy.get('#password').type('Atomic1*');
+      cy.get('#password').type(credentials.pw);
       cy.get('input[type="checkbox"][id="secure-session"]').uncheck({force: true});
       cy.get('input[type="submit"].btn-success').click();
     });
   });
+})
 
   it('Criar Issue', () => {
     cy.visit('https://mantis-prova.base2.com.br/my_view_page.php');
@@ -45,13 +50,28 @@ describe('Caminho Feliz', () => {
       });
     });
     cy.get('input[type="submit"][value="Criar Nova Tarefa"]').click();
+    cy.wait(5000);
+    cy.get('td.bug-id').invoke('text').then(text => {
+      issue_id = text.trim();
+      cy.log('Issue ID: ' + issue_id);
+    });
+    cy.visit(`https://mantis-prova.base2.com.br/view.php?id=${issue_id}`);
+    cy.get('td.bug-id').invoke('text').then(text => {
+      issue_id = text.trim();
+      cy.wrap(issue_id).should('eq', text.trim());
+    });
   });
+
+  after('Fazer Logout', () => {
+    cy.get('.dropdown-toggle').click();
+    cy.get('a[href="/logout_page.php"]').click();
+  })
 });
 
-//criar validacoes
-//criar execucao cicd/
-//criar integracao dashboard
+//fazer logout X
+//salvar num tarefa -> ver tarefas -> validar que apareca X
+//criar validacoes X
+//utilizar credenciais X
 
-//salvar num tarefa -> ver tarefas -> validar qe apareca
-//fazer logout
-//utilizar credenciais
+//criar integracao dashboard X
+//criar execucao cicd/ X
